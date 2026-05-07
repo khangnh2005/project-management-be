@@ -9,6 +9,7 @@ app.set('view engine', 'pug')
 
 route(app) // gọi hàm route và truyền tham số app vào để có thể sử dụng được các phương thức của expresss trong file index.route.js
 
+app.use(express.static('public'))
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
