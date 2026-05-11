@@ -6,6 +6,7 @@ const routeAdmin = require('./routes/admin/index.route')
 const app = express()
 const port = process.env.PORT
 const db = require('./config/database')
+const systemConfig = require('./config/system')
 db.connect()  
 app.set('views', './views')
 app.set('view engine', 'pug')
@@ -14,6 +15,8 @@ routeClient(app) // gọi hàm routeClient và truyền tham số app vào để
 routeAdmin(app) // gọi hàm routeAdmin và truyền tham số app vào để có thể sử dụng được các phương thức của expresss trong file index.route.js
 
 app.use(express.static('public'))
+
+app.locals.prefixAdmin = systemConfig.prefixAdmin // khai báo một biến toàn cục có tên là prefixAdmin và gán giá trị là '/admin', biến này sẽ được sử dụng trong các file pug để tạo đường dẫn đến các trang admin
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
