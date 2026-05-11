@@ -2,7 +2,7 @@
 
 const Product = require('../../models/product.model');
 module.exports.adminProducts = async (req, res) => {
-    console.log(req.query.status);
+    
     let filterStatus = [
     {
         name : "Tất cả",
@@ -21,9 +21,9 @@ module.exports.adminProducts = async (req, res) => {
     },
     ]   
     let find = {
-        deleted: false,
-
+        deleted: false
     }
+    
     if(req.query.status){
         const index = filterStatus.findIndex(item => item.status == req.query.status)
         filterStatus[index].class = "active"
@@ -36,6 +36,13 @@ module.exports.adminProducts = async (req, res) => {
     if(req.query.status){
         find.status = req.query.status
     }
+
+    let keyword = "";
+    if(req.query.keyword){
+        keyword = req.query.keyword
+        const regex = new RegExp(keyword, "i"); // Tìm gần đúng 
+        find.title = regex;
+    }
     // console.log(req.query.status);
     const products = await Product.find(find);
      
@@ -44,7 +51,8 @@ module.exports.adminProducts = async (req, res) => {
                 titlePage: 'Danh sách san pham'
                 ,
                 products : products,
-                filterStatus : filterStatus
+                filterStatus : filterStatus,
+                keyword : keyword
             })
         
     }   

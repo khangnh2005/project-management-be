@@ -21,7 +21,7 @@ if (buttonStatus.length > 0) {
 //Form Search 
 const formSearch = document.querySelector("#form-search");
 if(formSearch) {
-    let url = new URL(window.location.href)
+    let url = new URL(window.location.href);
     formSearch.addEventListener("submit", (e) => {
         e.preventDefault();
         const keyword = e.target.elements.keyword.value;
