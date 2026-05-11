@@ -1,7 +1,7 @@
 extends ../../layout/default.pug
 include ../../mixins/filter-status.pug
 //- include ../../mixins/search.pug
-
+include ../../mixins/search.pug
 block main 
     h1 Danh sach san pham   
     .card.mb-3
@@ -11,7 +11,7 @@ block main
                 .col-6
                     +filter-status(filterStatus)
                 .col-6
-                    //- +search()
+                    +search(keyword)
             
 
     .card.mb-3
