@@ -20,7 +20,20 @@ module.exports.adminProducts = async (req, res) => {
     }
     const keyword = search.keyword;
     // console.log(req.query.status);
-    const products = await Product.find(find);
+
+    //Pagination
+    let objectPagination = {
+        limitItems : 4
+    }
+    if(req.query.page){
+        objectPagination.currentPage = parseInt(req.query.page) 
+    }
+    const countProducts = await Product.countDocuments(find);
+    const totalPage = Math.ceil(countProducts / objectPagination.limitItems);
+    console.log(totalPage);
+    objectPagination.totalPage = totalPage;
+    //End Pagination
+    const products = await Product.find(find).limit(objectPagination.limitItems).skip((req.query.page - 1) * objectPagination.limitItems).sort({position : -1});
      
 
             res.render('admin/pages/products/index.pug', {
@@ -28,7 +41,8 @@ module.exports.adminProducts = async (req, res) => {
                 ,
                 products : products,
                 filterStatus : filterStatus,
-                keyword : keyword
+                keyword : keyword,
+                pagination : objectPagination
             })
         
     }   
