@@ -1,8 +1,9 @@
-// [GET] /admin/products
+
 const filterStatusHelpers = require('../../helpers/filterStatus');
 const searchHelpers = require('../../helpers/search');
 const paginationHelpers = require('../../helpers/pagination');
 const Product = require('../../models/product.model');
+// [GET] /admin/products
 module.exports.adminProducts = async (req, res) => {
     
     //Đoạn filter 
@@ -50,4 +51,17 @@ module.exports.adminProducts = async (req, res) => {
             })
         
     }   
+// [Patch] /admin/products/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+    try {
+        const id = req.params.id;
+    const status = req.params.status;
+    await Product.updateOne({ _id : id},{status: status});
+
+    res.redirect('../..');
+    } catch (error) {
+        res.redirect('../..');
+    }
+    
+}
 
