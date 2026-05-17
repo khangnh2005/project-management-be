@@ -4,6 +4,7 @@
     
  router.get('/', dashboardController.adminProducts); 
  router.patch('/change-status/:status/:id', dashboardController.changeStatus);  
+ router.patch('/change-multi', dashboardController.changeMulti);  
 
     
    module.exports = router

@@ -1,4 +1,3 @@
-console.log('Hello world')
 
 const buttonsChangeStatus = document.querySelectorAll("[button-change-status]");
 const formChangeStatus = document.querySelector("#form-change-status");
@@ -14,7 +13,7 @@ if (buttonsChangeStatus.length > 0) {
         console.log(statusNew);
 
         const action = path + `/${statusNew}/${id}?_method=PATCH`
-        console.log(action);
+        
         formChangeStatus.action = action
 
         formChangeStatus.submit();
