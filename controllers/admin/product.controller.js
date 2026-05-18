@@ -68,9 +68,10 @@ module.exports.changeStatus = async (req, res) => {
 
 module.exports.changeMulti = async (req, res) => {
 
-        const status = req.body.type;
+        const status = req.body.type; 
         const ids = req.body.ids.split(" , ");
-        console.log(req.body);
+        
+        
         switch (status) {
             case "active":
                 await Product.updateMany({ _id : { $in: ids } },{ status : "active" });
@@ -83,6 +84,14 @@ module.exports.changeMulti = async (req, res) => {
                     deleted: "true" ,
                     deletedAt : new Date() 
                 })
+                break;
+            case "position":
+                    for (const item of ids) {
+                        const [id , position] = item.split("-")
+                        position = parseInt(position)
+                       await Product.updateMany({_id : id},{position : position})
+                       
+                    }
                 break;
             default:
                 break;

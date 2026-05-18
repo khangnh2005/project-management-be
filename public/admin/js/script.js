@@ -101,23 +101,41 @@ if(formChangeMulti){
         const inputChecked = document.querySelectorAll("input[name = 'id']:checked");
         e.preventDefault();
        
+        const typeChange = e.target.elements.type.value;
 
+        if(typeChange == "delete"){
+            const isConfirm = confirm("Bạn có chắc muốn xóa những sản phẩm này không")
+            if(!isConfirm){
+                return;
+            }
+        }
         if(inputChecked.length > 0 ){
             let ids = [];
             inputChecked.forEach(input =>{
-                const id = input.value;
-                ids.push(id)
+                if(typeChange == "position"){
+                    const id = input.value;
+                    const position = input.closest("tr").querySelector("input[name = 'position']").value;
+                    
+                    ids.push(`${id}-${position}`)
+                    console.log(ids);
+                }   
+                else{
+                    const id = input.value;                   
+                    ids.push(id)
+                }
                 
+               
             })
             
             e.target[1].value = ids.join(" , ");
+            formChangeMulti.submit();
         }
         else{
             alert("Vui lòng chọn ít nhất 1 bản ghi")
             return ;
         }
 
-        formChangeMulti.submit();
+        
     })
         
 
