@@ -45,3 +45,42 @@
   border-bottom: 1px solid #515151;
 }
 /* End Sider */
+
+/* Show alert */
+[show-alert] {
+  position: fixed;
+  top:0px;
+  width: 400px;
+  line-height: 40px;
+  right: -1300px;
+  z-index: 9999;
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+[show-alert].alert-hidden {
+  animation-name: alert-hidden;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes alert-hidden {
+  from {
+    right: -1300px;
+  }
+  to {
+    right: -100%;
+    display: none;
+  }
+}
+
+
+/* end Show alert */
+
+[close-alert] {
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+ line-height: 30px;
+}

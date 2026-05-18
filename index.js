@@ -1,6 +1,9 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
+const flash = require('express-flash')
+const cookieParser = require('cookie-parser');
+const session = require('express-session')
 const app = express()
 require('dotenv').config()
 const methodOveride = require('method-override');
@@ -19,6 +22,12 @@ app.set('view engine', 'pug')
 app.use(methodOveride('_method'));
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended : false }));
+
+// Flash
+app.use(cookieParser('TBCNSPWRJG')); // CÀI THÊM THƯ VIỆN cookie-parser
+app.use(session({ cookie: { maxAge: 60000 }})); // CÀI THÊM THƯ VIỆN express-session
+app.use(flash());
+// End Flash
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin // khai báo một biến toàn cục có tên là prefixAdmin và gán giá trị là '/admin', biến này sẽ được sử dụng trong các file pug để tạo đường dẫn đến các trang admin
 
