@@ -94,11 +94,7 @@ if(checkBoxMulti){
 // Form-change-Multi
 const formChangeMulti = document.querySelector("[form-change-multi]")
 
-if(formChangeMulti){
-    
-    
-    const inputFormControl = document.querySelector("input[name = 'ids']")
-    
+if(formChangeMulti){    
 
     formChangeMulti.addEventListener('submit' , (e)=>{
         // const checkBoxMulti = document.querySelector("[check-box-multi]")
@@ -129,3 +125,14 @@ if(formChangeMulti){
     
 }
 // end Form-change-Multi
+
+
+// Form Delete
+const formDelete = document.querySelector("[form-delete]")
+if(formDelete){
+   formDelete.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    console.log(e);
+   })
+}
+// end Form Delete
