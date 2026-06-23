@@ -6,5 +6,7 @@
  router.patch('/change-status/:status/:id', dashboardController.changeStatus);  
  router.patch('/change-multi', dashboardController.changeMulti);  
  router.delete('/delete/:id', dashboardController.deleteItem);
-    
-   module.exports = router
+ router.get('/create' ,dashboardController.create);
+ router.post('/create' ,dashboardController.createPost);
+
+  module.exports = router

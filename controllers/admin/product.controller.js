@@ -4,6 +4,7 @@ const searchHelpers = require('../../helpers/search');
 const paginationHelpers = require('../../helpers/pagination');
 const Product = require('../../models/product.model');
 // [GET] /admin/products
+const systemConfig = require("../../config/system")
 module.exports.adminProducts = async (req, res) => {
     
     //Đoạn filter 
@@ -118,3 +119,35 @@ module.exports.deleteItem = async (req , res) =>{
     res.redirect(req.headers.referer);
 }
 
+//[GET] /admin/products/create
+module.exports.create = async (req , res) =>{
+    res.render('admin/pages/products/create', {
+        titlePage: 'Them moi san pham'
+
+    })
+}
+
+module.exports.createPost = async (req , res) =>{
+    
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    req.body.position = Number(req.body.position)
+    
+    console.log(req.body.params)
+    
+    if(req.body.position == ""){
+       const count = await Product.countDocuments({});
+        req.body.position = count + 1  
+        
+    } 
+    else{
+        console.log(req.body.position)
+    }
+    const product = new Product(req.body);
+    await product.save();
+
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+   
+
+}
