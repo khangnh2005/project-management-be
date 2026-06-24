@@ -84,3 +84,17 @@
   cursor: pointer;
  line-height: 30px;
 }
+
+/* button-delete-image */
+.hidden{
+  display: none;
+}
+.btn-delete-image{
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 1000px;
+  margin-left: 10px;
+  margin-top: -6px;
+  
+}
+/* end button-delete-image */

@@ -128,12 +128,16 @@ module.exports.create = async (req , res) =>{
 }
 
 module.exports.createPost = async (req , res) =>{
-    req.body.thumbnail = `/uploads/${req.file.filename}`
+    
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
     req.body.position = Number(req.body.position)
+    if(req.file){
+        req.body.thumbnail = `/uploads/${req.file.filename}`
+    }
     
+
     console.log(req.body.params)
     
     if(req.body.position == ""){
