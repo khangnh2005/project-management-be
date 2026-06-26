@@ -18,5 +18,11 @@
     Controller.createPost,
     
  );
-
+ router.get(`/edit/:id` ,Controller.edit)
+ router.patch(`/edit/:id` , 
+   upload.single('thumbnail'), // Không có cái này là lỗi 
+   Validate.createPost,
+   Controller.editPatch,
+ 
+)
   module.exports = router
