@@ -15,12 +15,12 @@ const db = require('./config/database')
 const systemConfig = require('./config/system')
 db.connect()  
 
-app.set('views', './views')
+app.set('views', `${__dirname}/views`)
 app.set('view engine', 'pug')
 
 
 app.use(methodOveride('_method'));
-app.use(express.static('public'))
+app.use(express.static(`${__dirname}/public`))
 app.use(bodyParser.urlencoded({extended : false }));
 
 // Flash
