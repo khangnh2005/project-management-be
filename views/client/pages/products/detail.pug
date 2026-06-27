@@ -1,0 +1,17 @@
+extends ../../layouts/default.pug
+
+block main
+    .container.my-3
+        .row
+        .col-12
+            h1 <b>#{product.title}</b>  
+            p Ảnh sản phẩm:
+            img(src=product.thumbnail, alt="" style="width:150px; height:150px") 
+            p Mô tả: <b>#{product.description == " " ? "chưa có": product.description}</b>
+            p Giá:  <b>#{product.price} đ</b>
+            p Giảm giá:  <b>#{product.discountPercentage} %</b>
+            p Số lượng:   <b>#{product.stock}</b>
+            p Trạng thái:<b> #{product.status =="active" ? "Hoạt động" : "Không hoạt động"} </b>
+            p Vị trí: <b>#{product.position} </b>
+            p Tạo lúc:  <b>#{product.createdAt}</b>
+    
