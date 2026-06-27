@@ -23,6 +23,7 @@
    upload.single('thumbnail'), // Không có cái này là lỗi 
    Validate.createPost,
    Controller.editPatch,
- 
 )
+ router.get(`/detail/:id` , Controller.detail)
+
   module.exports = router

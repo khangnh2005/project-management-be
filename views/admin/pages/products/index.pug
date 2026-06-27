@@ -86,8 +86,10 @@ block main
                                         class="badge badge-danger" 
                                     ) Dừng Hoạt động 
                             td
-                                button(class="btn btn-warning btn-sm")
-                                    a(href=`${prefixAdmin}/products/edit/${item.id}`) Sửa
+                                button(class="btn btn-success btn-sm ml-1")
+                                    a(href=`${prefixAdmin}/products/detail/${item.id}` style="color:white") Xem
+                                button(class="btn btn-warning btn-sm ml-1")
+                                    a(href=`${prefixAdmin}/products/edit/${item.id}` style="color:white") Sửa
                                 button(
                                     class="btn btn-danger btn-sm ml-1" 
                                     data-id = item.id

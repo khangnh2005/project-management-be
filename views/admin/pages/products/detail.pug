@@ -1,0 +1,24 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main
+    h1 #{product.title}
+    p Ảnh sản phẩm:
+     img(src=product.thumbnail, alt="" style="width:150px; height:150px") 
+    p Mô tả: #{product.description == " " ? "chưa có": product.description}
+    p Giá: #{product.price} đ
+    p Giảm giá: #{product.discountPercentage} %
+    p Số lượng: #{product.stock} 
+    p Trạng thái: #{product.status =="active" ? "Hoạt động" : "Không hoạt động"} 
+    p Vị trí: #{product.position} 
+    p Tạo lúc: #{product.createdAt} 
+    button(class="btn btn-warning btn-sm ml-1")
+     a(href=`${prefixAdmin}/products/edit/${product.id}` style="color:white") Sửa
+
+
+     
+
+     
+        
+
+        

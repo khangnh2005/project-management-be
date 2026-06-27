@@ -196,3 +196,21 @@ module.exports.editPatch = async ( req , res) =>{
    
 }
 //[PATCH] /admin/products/edit/:id
+
+//[GET] /admin/products/detail/:id
+module.exports.detail = async (req,res) =>{
+    const id = req.params.id;
+    console.log(id);
+    const find = {
+        deleted : false,
+        _id : id
+    }
+    const product = await Product.findOne(find);
+    res.render(`admin/pages/products/detail`,
+        {
+        titlePage : "Chi tiết sản phẩm",
+        product : product
+        }
+    )
+}
+//[GET] /admin/products/detail/:id
