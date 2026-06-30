@@ -36,10 +36,23 @@ module.exports.adminProducts = async (req, res) => {
         countProducts
     )
 
+    //Sort
+    let sort= {}
+    if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue
+        
 
+    }else {
+        sort.position = "desc"
+    }
+    //End Sort
    
     //End Pagination
-    const products = await Product.find(find).limit(objectPagination.limitItems).skip((req.query.page - 1) * objectPagination.limitItems).sort({position : -1});
+    const products = await Product.find(find)
+        .sort(sort)
+        .limit(objectPagination.limitItems)
+        .skip((req.query.page - 1) * objectPagination.limitItems).sort({position : -1});
+    
      
 
             res.render('admin/pages/products/index.pug', {

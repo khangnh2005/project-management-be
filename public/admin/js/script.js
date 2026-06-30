@@ -47,7 +47,9 @@ if(buttonsPagination) {
     url.searchParams.set("page", page);
     }
     else{
+        
     url.searchParams.delete("page");
+    
     }
     window.location.href = url.href;
     });
@@ -194,3 +196,54 @@ if(uploadImage){
 
 }
 // end Upload Image
+
+// Sort Change
+const sort = document.querySelector("[sort]");
+if(sort){
+    const sortSelect = document.querySelector("[sort-select]")
+    const sortClear = document.querySelector("[sort-clear]")
+    let url = new URL(window.location.href)
+    sortSelect.addEventListener("change" ,(e)=>{
+        const value = e.target.value;
+        const [sortKey,sortValue] = value.split("-");
+        
+        
+        
+        
+        if(value){
+            url.searchParams.set("sortKey" , sortKey);
+            url.searchParams.set("sortValue" , sortValue);
+        }else{
+            url.searchParams.delete("sortKey");
+            url.searchParams.delete("sortValue" );
+        }
+        
+        window.location.href = url.href
+    })
+
+    //Clear
+   
+    sortClear.addEventListener("click" ,(e)=>{
+       
+        url.searchParams.delete("sortKey"  );
+        url.searchParams.delete("sortValue" );
+        window.location.href = url.href
+
+    })
+    
+    //Set selected cho option
+    const sortKey = url.searchParams.get("sortKey");
+    const sortValue = url.searchParams.get("sortValue");
+    if(sortKey && sortValue){
+        const stringSort = `${sortKey}-${sortValue}` 
+       
+        const option = document.querySelector(`option[value = ${stringSort}]`)
+        option.selected = true
+    }
+
+
+}
+
+
+
+// end Sort Change

@@ -23,6 +23,7 @@
  router.get(`/edit/:id`, Controller.edit)
  router.patch(`/edit/:id`,
     upload.single('thumbnail'), // Không có cái này là lỗi 
+    uploadCloud.upload,
     Validate.createPost,
     Controller.editPatch,
  )
