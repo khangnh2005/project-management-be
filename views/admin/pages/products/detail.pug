@@ -4,7 +4,7 @@ block main
     h1 #{product.title}
     p Ảnh sản phẩm:
      img(src=product.thumbnail, alt="" style="width:150px; height:150px") 
-    p Mô tả: #{product.description == " " ? "chưa có": product.description}
+    p Mô tả: !{product.description == " " ? "chưa có": product.description}
     p Giá: #{product.price} đ
     p Giảm giá: #{product.discountPercentage} %
     p Số lượng: #{product.stock} 

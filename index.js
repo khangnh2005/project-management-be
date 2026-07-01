@@ -2,6 +2,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const flash = require('express-flash')
+const path = require('path')
 const cookieParser = require('cookie-parser');
 const session = require('express-session')
 const app = express()
@@ -29,6 +30,10 @@ app.use(session({ cookie: { maxAge: 60000 }})); // CÀI THÊM THƯ VIỆN expres
 app.use(flash());
 // End Flash
 
+
+// TinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// End TinyMCE
 app.locals.prefixAdmin = systemConfig.prefixAdmin // khai báo một biến toàn cục có tên là prefixAdmin và gán giá trị là '/admin', biến này sẽ được sử dụng trong các file pug để tạo đường dẫn đến các trang admin
 
 routeClient(app) // gọi hàm routeClient và truyền tham số app vào để có thể sử dụng được các phương thức của expresss trong file index.route.js
