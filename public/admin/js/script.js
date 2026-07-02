@@ -219,7 +219,7 @@ if(sort){
         }
         
         window.location.href = url.href
-    })
+})
 
     //Clear
    

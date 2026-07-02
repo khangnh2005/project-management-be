@@ -28,5 +28,5 @@
     Controller.editPatch,
  )
  router.get(`/detail/:id`, Controller.detail)
-
+ 
  module.exports = router
