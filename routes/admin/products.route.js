@@ -2,7 +2,13 @@
  const multer = require('multer')
  //  const storageMulter = require("../../helpers/storageMulter")
 
- const upload = multer();
+ const upload = multer(    
+   {
+        limits: {
+            fieldSize: 10 * 1024 * 1024 
+        }
+    }
+);
 
  const router = express.Router()
  const Controller = require('../../controllers/admin/product.controller')
