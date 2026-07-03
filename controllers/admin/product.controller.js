@@ -148,8 +148,6 @@ module.exports.createPost = async (req , res) =>{
     req.body.position = Number(req.body.position)
     
     
-
-    console.log(req.body.params)
     
     if(req.body.position == ""){
        const count = await Product.countDocuments({});
@@ -157,7 +155,7 @@ module.exports.createPost = async (req , res) =>{
         
     } 
     else{
-        console.log(req.body.position)
+        
     }
     const product = new Product(req.body);
     await product.save();
@@ -174,7 +172,7 @@ module.exports.edit = async (req , res )=>{
             _id : req.params.id
         }
         const product = await Product.findOne(find)
-        console.log(product)
+        
         res.render("admin/pages/products/edit" ,{
             titlePage : "Chỉnh sửa sản phẩm",
             product : product
@@ -198,7 +196,7 @@ module.exports.editPatch = async ( req , res) =>{
         await Product.updateOne({_id : id }, req.body)
         req.flash("success" , "Cập nhật thành công")
     } catch (error) {
-        req.flash("success" , "Cập nhật không thành công")
+        req.flash("error" , "Cập nhật không thành công")
         res.redirect(req.headers.referer)
     }
     res.redirect(`${systemConfig.prefixAdmin}/products`);
@@ -209,7 +207,7 @@ module.exports.editPatch = async ( req , res) =>{
 //[GET] /admin/products/detail/:id
 module.exports.detail = async (req,res) =>{
     const id = req.params.id;
-    console.log(id);
+    
     const find = {
         deleted : false,
         _id : id

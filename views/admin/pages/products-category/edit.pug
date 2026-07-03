@@ -4,10 +4,10 @@ include ../../mixins/select-tree.pug
 
 block main 
     +alert-error(5000)
-    h1(class="mb-4") Thêm mới Danh mục 
     
+    h1(class="mb-4") Chỉnh sửa danh mục  
     form(
-        action=`${prefixAdmin}/products-category/create` 
+        action=`${prefixAdmin}/products-category/edit/${records.id}?_method=PATCH` 
         
         method="POST"
         enctype="multipart/form-data" 
@@ -20,18 +20,17 @@ block main
                 id="title"
                 name="title"
                 required
+                value = records.title
             )
         div(class="form-group")
-            label(for="parent_id") Danh mục cha 
-             
+            label(for="parent_id") Danh mục cha  
                 select(
                     class="form-control"
                     name="parent_id"
                     id="parent_id"
-                    )
-                    option(value="") -- Chọn Danh Mục --
-                    if(records)
-                        +select-tree(records)
+                    ) 
+                    if(categories)
+                        +select-tree(categories ,1, records.parent_id)
                         
 
 
@@ -43,7 +42,7 @@ block main
                 id="desc"
                 name="description"
                 row="5"
-            )
+            ) #{records.description}
             label(for="thumbnail") Ảnh
             input(
                 type="file"
@@ -52,10 +51,11 @@ block main
                 name="thumbnail"
                 accept="image/*"
                 upload-image-input
+                value= records.thumbnail
             ) 
             div(style="display: flex")
-                img(src="" upload-image-preview style="width : 360px") 
-                p(class="hidden btn-delete-image") X 
+                img(src=records.thumbnail upload-image-preview style="width : 360px") 
+                p(class="btn-delete-image") X 
         div(class="form-group")
             label(for="position") Vị trí
             input(
@@ -64,7 +64,7 @@ block main
                 id="position"
                 name="position"
                 placeholder = "Tự động tăng"
-                min = "1"
+                value=records.position
             )  
         div(class="form-group form-check form-check-inline")
             input(
@@ -89,6 +89,6 @@ block main
             button(
                 type="submit"
                 class = "btn btn-primary"    
-            ) Tạo mới
+            ) Cập nhật
 
     script(src="/admin/js/products.js") 
