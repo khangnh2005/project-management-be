@@ -3,8 +3,11 @@ const filterStatusHelpers = require('../../helpers/filterStatus');
 const searchHelpers = require('../../helpers/search');
 const paginationHelpers = require('../../helpers/pagination');
 const Product = require('../../models/product.model');
+const ProductCategory = require('../../models/product-category.model')
+const createTreeHelpers = require('../../helpers/createTree')
 // [GET] /admin/products
-const systemConfig = require("../../config/system")
+const systemConfig = require("../../config/system");
+
 module.exports.adminProducts = async (req, res) => {
     
     //Đoạn filter 
@@ -134,9 +137,15 @@ module.exports.deleteItem = async (req , res) =>{
 
 //[GET] /admin/products/create
 module.exports.create = async (req , res) =>{
-    res.render('admin/pages/products/create', {
-        titlePage: 'Them moi san pham'
 
+    let find = {
+        deleted : false
+    }
+    const records = await ProductCategory.find(find);
+    const newRecords = createTreeHelpers.tree(records)
+    res.render('admin/pages/products/create', {
+        titlePage: 'Them moi san pham',
+        category : newRecords
     })
 }
 
@@ -159,8 +168,8 @@ module.exports.createPost = async (req , res) =>{
     }
     const product = new Product(req.body);
     await product.save();
-
     res.redirect(`${systemConfig.prefixAdmin}/products`);
+
 }
 
 //[PATCH] /admin/products/edit/:id
@@ -212,11 +221,18 @@ module.exports.detail = async (req,res) =>{
         deleted : false,
         _id : id
     }
+
+    const category = {
+        deleted : false
+    }
     const product = await Product.findOne(find);
+    const categories = await ProductCategory.find(category);
+
     res.render(`admin/pages/products/detail`,
         {
         titlePage : "Chi tiết sản phẩm",
-        product : product
+        product : product,
+        categories : categories
         }
     )
 }

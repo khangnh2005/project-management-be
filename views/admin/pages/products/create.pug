@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
 
 block main 
     +alert-error(5000)
@@ -20,6 +21,16 @@ block main
                 name="title"
                 required
             )
+        
+        div(class="form-group")
+            label(for="product_category_id") Danh mục  
+                select(
+                    class="form-control"
+                    name="product_category_id"
+                    id="product_category_id")
+                    option(value="") -- Chọn Danh Mục --
+                    if(category)
+                        +select-tree(category)  
         div(class="form-group")
             label(for="desc") Mô tả 
             textarea(
@@ -29,14 +40,6 @@ block main
                 name="description"
                 row="5"
             )
-        label(for="desc") Bảng thường  
-        textarea(
-            
-            class="form-control "
-            id="desc123"
-            name="descriptionacnc"
-            row="5"
-        )   
         div(class="form-group")
             label(for="price") Giá
             input(
