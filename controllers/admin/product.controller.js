@@ -180,11 +180,17 @@ module.exports.edit = async (req , res )=>{
             deleted : false,
             _id : req.params.id
         }
+        const category = {
+           deleted : false
+        }
         const product = await Product.findOne(find)
+        const categories = await ProductCategory.find(category)
+        const newCategories = createTreeHelpers.tree(categories)
         
         res.render("admin/pages/products/edit" ,{
             titlePage : "Chỉnh sửa sản phẩm",
-            product : product
+            product : product,
+            category : newCategories
         } 
     )
     } catch (error) {
