@@ -50,7 +50,11 @@ block main
                         th Hành động
                 tbody
                     +table-tree(records)
-                    
-                                       
-      
+                                                          
+    form(
+        action=""
+        method="POST"
+        id = "form-delete-item"
+        data-path2 = `${prefixAdmin}/products-category/delete`
+    )     
     script(src="/admin/js/products.js") 

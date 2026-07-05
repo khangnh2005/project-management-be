@@ -18,3 +18,65 @@ module.exports.role = async (req, res) => {
         records: records
     })
 }
+// [GET] /admin/roles/create
+
+module.exports.create = async (req, res) => {
+    res.render("admin/pages/roles/create" ,{
+        titlePage: "Thêm Nhóm Quyền"
+    })
+}
+
+// [POST] /admin/roles/create
+module.exports.createPost = async (req, res) => {
+
+    
+    const roles = new Roles(req.body);
+    
+    await roles.save();
+    res.redirect(`${systemConfig.prefixAdmin}/roles`);
+}
+
+// [Delete] /admin/products/delete/:id
+module.exports.deleteItem = async (req , res) =>{
+    const id = req.params.id;
+    
+    // await Product.deleteOne({_id : id}); //Xóa cứng (xóa vĩnh viễn)
+    await Roles.updateOne({_id : id},{
+        deleted : true,
+        deletedAt : new Date()
+    })
+
+    res.redirect(req.headers.referer);
+}
+
+// [GET] /admin/roles/edit/:id
+
+module.exports.edit = async (req, res) => {
+    const id = req.params.id 
+    let find = {
+        _id : id 
+    }
+    const record =await Roles.findOne(find);
+    res.render("admin/pages/roles/edit" ,{
+        titlePage: "Sửa Nhóm Quyền",
+        record : record
+    })
+}
+
+// [GET] /admin/roles/edit/:id
+
+module.exports.editPatch = async (req, res) => {
+    
+
+    
+    try {
+        const id = req.params.id ;
+        const record =await Roles.updateOne({_id :id} , req.body);
+        req.flash("success" , "Cập nhật thành công")
+
+    } catch (error) {
+        req.flash("success" , "Cập nhật không  thành công")
+        res.redirect(req.headers.referer)
+    }
+    res.redirect(`${systemConfig.prefixAdmin}/roles`)
+}

@@ -106,6 +106,18 @@ module.exports.edit = async (req , res ) => {
         categories : newCategories
     })
 }
+  // [DELETE] /admin/products-category/delete/:id
+module.exports.deleteItem = async (req , res) =>{
+    const id = req.params.id;
+    
+    await productCategory.updateOne({_id : id},{
+        deleted : true,
+        deletedAt : new Date()
+    })
+
+    res.redirect(req.headers.referer);
+}
+
   // [PATCH] /admin/products-category/edit/:id
 module.exports.editPatch = async (req,res ) =>{
    

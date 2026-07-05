@@ -20,7 +20,8 @@
      Controller.createPost
  );
  
- router.get('/edit/:id' ,Controller.edit);
+  router.delete('/delete/:id', Controller.deleteItem);
+  router.get('/edit/:id' ,Controller.edit);
  router.patch('/edit/:id' ,
     upload.single('thumbnail'),
     uploadCloud.upload,
