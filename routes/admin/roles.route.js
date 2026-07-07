@@ -8,6 +8,8 @@
  router.delete('/delete/:id', Controller.deleteItem);
  router.get('/edit/:id', Controller.edit);
  router.patch('/edit/:id', Controller.editPatch);
+ router.get('/permissions' , Controller.permissions);
+ router.patch('/permissions' , Controller.permissionsPatch);
 
  module.exports = router
 
