@@ -1,6 +1,7 @@
  const express = require('express')
  const router = express.Router()
 
+
  const Controller = require('../../controllers/admin/roles.controller')
  router.get('/', Controller.role);
  router.get('/create' , Controller.create);

@@ -4,7 +4,6 @@ const generate = require('../helpers/generateRDString')
 
 const accountSchema = new mongoose.Schema({
     fullName: String,
-    username:String,
     password:String,
     email: String ,
     token: {
@@ -12,12 +11,9 @@ const accountSchema = new mongoose.Schema({
         default : generate.generateRandomString(20)
     },
     phone:String,
-    address:String, 
     avatar: String ,
     role_id:String ,
     status : String ,
-
-
     deleted: {
         type : Boolean,
         default : false
