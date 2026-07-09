@@ -1,7 +1,9 @@
 extends ../../layout/default.pug
+include ../../mixins/alert.pug
 
 block main   
     
+    +alert-success(5000)
     .card.mb-3
         .card-header Danh Sách
         .card-body
@@ -69,3 +71,11 @@ block main
                                     data-id = item.id
                                     button-delete 
                                     ) Xóa
+
+    form(
+        action=""
+        method="POST"
+        id = "form-delete-item"
+        data-path2 = `${prefixAdmin}/accounts/delete`
+    )  
+    script(src="/admin/js/products.js") 

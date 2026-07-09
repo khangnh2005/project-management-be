@@ -15,5 +15,15 @@
     Controller.createPost
  ) ;
 
+ router.get('/edit/:id', Controller.edit);
+
+ router.patch('/edit/:id' ,
+   upload.single('avatar') ,
+   uploadCloud.upload,
+   Validate.editPatch,
+   Controller.editPatch
+ ) ;
+
+
 
   module.exports = router;
