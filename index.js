@@ -1,10 +1,10 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
-const flash = require('express-flash')
 const path = require('path')
 const cookieParser = require('cookie-parser');
 const session = require('express-session')
+const flash = require('./middlewares/flash.middleware')
 const app = express()
 require('dotenv').config()
 const methodOveride = require('method-override');
@@ -25,9 +25,15 @@ app.use(express.static(`${__dirname}/public`))
 app.use(bodyParser.urlencoded({extended : false }));
 
 // Flash
-app.use(cookieParser('TBCNSPWRJG')); // CÀI THÊM THƯ VIỆN cookie-parser
-app.use(session({ cookie: { maxAge: 60000 }})); // CÀI THÊM THƯ VIỆN express-session
+app.use(cookieParser('TBCNSPWRJG'));
+app.use(session({ 
+    secret: 'TBCNSPWRJG',
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(flash());
+
 // End Flash
 
 

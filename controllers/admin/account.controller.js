@@ -1,4 +1,4 @@
-const { prefixAdmin } = require("../../config/system");
+
 const Account = require("../../models/accounts.model")
 const Role = require("../../models/role.model")
 const systemConfig = require("../../config/system")
@@ -73,7 +73,7 @@ module.exports.editPatch = async (req , res)  =>{
         
         const id = req.params.id
             const emailExist = await Account.findOne({
-                _id : {$ne : id},
+                _id : {$ne : id},   // $ne : lọc ra bản ghi không có id kia
                 email : req.body.email, 
                 deleted : false
             })
