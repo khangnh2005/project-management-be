@@ -42,12 +42,14 @@ mixin table-tree(items, level = 1)
             td
                 button(class="btn btn-success btn-sm ml-1")
                     a(href=`${prefixAdmin}/products-category/detail/${item.id}` style="color:white") Xem
-                button(class="btn btn-warning btn-sm ml-1")
-                    a(href=`${prefixAdmin}/products-category/edit/${item.id}` style="color:white") Sửa
-                button(
-                    class="btn btn-danger btn-sm ml-1" 
-                    data-id = item.id
-                    button-delete 
-                    ) Xóa
+                if(role.permissions.includes("products-category_edit"))
+                    button(class="btn btn-warning btn-sm ml-1")
+                        a(href=`${prefixAdmin}/products-category/edit/${item.id}` style="color:white") Sửa
+                if(role.permissions.includes("products-category_delete"))
+                    button(
+                        class="btn btn-danger btn-sm ml-1" 
+                        data-id = item.id
+                        button-delete 
+                        ) Xóa
         if item.children && item.children.length > 0
             +table-tree(item.children, level + 1) 
