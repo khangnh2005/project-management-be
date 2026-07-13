@@ -60,13 +60,26 @@ module.exports.adminProducts = async (req, res) => {
     
      
     for (const product of products) {
+        // Lấy ra thông tin người tạo
         const user = await Account.findOne({
             _id : product.createdBy.account_id
         })    
         
         if(user){
-            product.accountFullname = user.fullName
+            product.accountFullname = user.fullName 
         }
+
+        // Lấy ra thông tin người cập nhật gần nhất
+        const updatedBy = product.updatedBy.slice(-1)[0];
+        
+        const userUpdated = await Account.findOne({
+            _id : product.createdBy.account_id
+        })  
+
+        if(updatedBy){
+            updatedBy.accountFullname = userUpdated.fullName 
+        }
+
     }
 
     
@@ -86,9 +99,17 @@ module.exports.adminProducts = async (req, res) => {
 // [Patch] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     try {
+
         const id = req.params.id;
     const status = req.params.status;
-    await Product.updateOne({ _id : id},{status: status});
+        const updatedBy = {
+            account_id : res.locals.user.id ,
+            updatedAt : new Date() 
+        }
+    await Product.updateOne({ _id : id},{
+        status: status,
+        $push: {updatedBy : updatedBy},
+    });
     req.flash('success', 'Cập nhật sản phẩm thành công!');
     res.redirect('../..');
     } catch (error) {
@@ -102,21 +123,33 @@ module.exports.changeMulti = async (req, res) => {
 
         const status = req.body.type; 
         const ids = req.body.ids.split(" , ");
-        
+        const updatedBy = {
+            account_id : res.locals.user.id ,
+            updatedAt : new Date() 
+        }   
         
         switch (status) {
             case "active":
-                await Product.updateMany({ _id : { $in: ids } },{ status : "active" });
+                await Product.updateMany({ _id : { $in: ids } },{ 
+                    status : "active" ,
+                    $push: {updatedBy : updatedBy}
+                });
                 req.flash('success', `Cập nhật thành công ${ids.length} sản phẩm`);
                 break;
             case "inactive":
-                await Product.updateMany({ _id : { $in: ids } },{ status : "inactive" });
+                await Product.updateMany({ _id : { $in: ids } },{ 
+                    status : "inactive",
+                    $push: {updatedBy : updatedBy}
+                 });
                 req.flash('success', `Cập nhật thành công ${ids.length} sản phẩm`);               
                 break;
             case "delete" :
                 await Product.updateMany({_id : {$in : ids}},{
-                    deleted: "true" ,
-                    deletedAt : new Date() 
+                    deleted: true ,
+                            deletedBy : {
+            account_id : res.locals.user.id,
+            deletedAt :  new Date()
+        } 
                 })
                 req.flash('success', `Xóa thành công ${ids.length} sản phẩm`);                
                 break;
@@ -223,18 +256,28 @@ module.exports.edit = async (req , res )=>{
 
 module.exports.editPatch = async ( req , res) =>{
 
-      const id = req.params.id
-        req.body.price = parseInt(req.body.price);
-        req.body.discountPercentage = parseInt(req.body.discountPercentage);
-        req.body.stock = parseInt(req.body.stock);
-        req.body.position = Number(req.body.position);
+    const id = req.params.id
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    req.body.position = Number(req.body.position);
 
     try {
-        await Product.updateOne({_id : id }, req.body)
+        const updatedBy = {
+            account_id : res.locals.user.id ,
+            updatedAt : new Date() 
+        }
+
+        
+        await Product.updateOne({_id : id }, {
+            ...req.body,
+            $push: {updatedBy : updatedBy}
+        })
         req.flash("success" , "Cập nhật thành công")
     } catch (error) {
         req.flash("error" , "Cập nhật không thành công")
-        res.redirect(req.headers.referer)
+        return res.redirect(req.headers.referer)
+        
     }
     res.redirect(`${systemConfig.prefixAdmin}/products`);
    
