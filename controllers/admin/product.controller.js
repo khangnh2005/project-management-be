@@ -3,6 +3,7 @@ const filterStatusHelpers = require('../../helpers/filterStatus');
 const searchHelpers = require('../../helpers/search');
 const paginationHelpers = require('../../helpers/pagination');
 const Product = require('../../models/product.model');
+const Account = require('../../models/accounts.model');
 const ProductCategory = require('../../models/product-category.model')
 const createTreeHelpers = require('../../helpers/createTree')
 // [GET] /admin/products
@@ -50,6 +51,7 @@ module.exports.adminProducts = async (req, res) => {
         sort.position = "desc"
     }
     //End Sort
+    
 
     const products = await Product.find(find)
         .sort(sort)
@@ -57,15 +59,28 @@ module.exports.adminProducts = async (req, res) => {
         .skip((req.query.page - 1) * objectPagination.limitItems)
     
      
+    for (const product of products) {
+        const user = await Account.findOne({
+            _id : product.createdBy.account_id
+        })    
+        
+        if(user){
+            product.accountFullname = user.fullName
+        }
+    }
 
-            res.render('admin/pages/products/index.pug', {
-                titlePage: 'Danh sách san pham'
-                ,
-                products : products,
-                filterStatus : filterStatus,
-                keyword : keyword,
-                pagination : objectPagination
-            })
+    
+   
+
+
+    res.render('admin/pages/products/index.pug', {
+        titlePage: 'Danh sách san pham'
+        ,
+        products : products,
+        filterStatus : filterStatus,
+        keyword : keyword,
+        pagination : objectPagination,
+    })
         
     }   
 // [Patch] /admin/products/change-status/:status/:id
@@ -165,6 +180,10 @@ module.exports.createPost = async (req , res) =>{
     } 
     else{
         
+    }
+
+    req.body.createdBy = {
+        account_id : res.locals.user.id
     }
     const product = new Product(req.body);
     await product.save();

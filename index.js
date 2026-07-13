@@ -8,12 +8,14 @@ const flash = require('./middlewares/flash.middleware')
 const app = express()
 require('dotenv').config()
 const methodOveride = require('method-override');
+const moment = require('moment')
 const routeClient = require('./routes/client/index.route') // cú pháp để import một module trong nodejs, ở đây là file index.route.js trong thư mục routes/client
 const routeAdmin = require('./routes/admin/index.route')
 
 const port = process.env.PORT
 const db = require('./config/database')
 const systemConfig = require('./config/system')
+
 db.connect()  
 
 app.set('views', `${__dirname}/views`)
@@ -41,6 +43,7 @@ app.use(flash());
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 // End TinyMCE
 app.locals.prefixAdmin = systemConfig.prefixAdmin // khai báo một biến toàn cục có tên là prefixAdmin và gán giá trị là '/admin', biến này sẽ được sử dụng trong các file pug để tạo đường dẫn đến các trang admin
+app.locals.moment = moment
 
 routeClient(app) // gọi hàm routeClient và truyền tham số app vào để có thể sử dụng được các phương thức của expresss trong file index.route.js
 routeAdmin(app) // gọi hàm routeAdmin và truyền tham số app vào để có thể sử dụng được các phương thức của expresss trong file index.route.js
