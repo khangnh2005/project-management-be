@@ -143,8 +143,11 @@ module.exports.deleteItem = async (req , res) =>{
     
     // await Product.deleteOne({_id : id}); //Xóa cứng (xóa vĩnh viễn)
     await Product.updateOne({_id : id},{
-        deleted : "true",
-        deletedAt : new Date()
+        deleted : true,
+        deletedBy : {
+            account_id : res.locals.user.id,
+            deletedAt :  new Date()
+        } 
     })
 
     res.redirect(req.headers.referer);
