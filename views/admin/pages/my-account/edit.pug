@@ -1,0 +1,112 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
+
+block main 
+    +alert-error(5000)
+    h1(class="mb-4") Chỉnh sửa tài khoản 
+    
+
+
+    form(
+        action=`${prefixAdmin}/my-account/edit/?_method=PATCH` 
+        method="POST"
+        enctype="multipart/form-data"
+    ) 
+        div(class="form-group")
+            label(for="fullName") Họ và tên <span style="color: red">*</span>
+            input(
+                type="text"
+                class="form-control"
+                id="fullName"
+                name="fullName"
+                value = user.fullName
+            )
+            
+        div(class="form-group")
+            label(for="email") Email <span style="color: red">*</span>
+            input(
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                value = user.email
+            )
+
+        div(class="form-group")
+            label(for="password") Mật khẩu 
+            input(
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                
+            )
+
+        div(class="form-group")
+            label(for="phone") Số điện thoại
+            input(
+                type="text"
+                class="form-control"
+                id="phone"
+                name="phone"
+                value = user.phone
+            )
+
+        div(
+            class="form-group"
+            upload-image
+        )
+            label(for="avatar") Ảnh
+            input(
+                type="file"
+                class="form-control-file"
+                id="avatar"
+                name="avatar"
+                accept="image/*"
+                upload-image-input
+            ) 
+            div(style="display: flex")
+                img(src=user.avatar upload-image-preview style="width : 360px") 
+                p(class=" btn-delete-image") X 
+
+        div(class="form-group")
+            label(for="role_id") Vai trò <span style="color: red">*</span>
+            input(type="text"
+                class="form-control"
+                id="phone"
+                name="phone"
+                value = role.title
+                disabled
+            )
+             
+             
+
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="active"
+                checked = (user.status === "active" ? true : false)
+            )
+            label(for="statusActive" class="form-check-label") Hoạt động
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusInActive"
+                name="status"
+                value="inactive"
+                checked = (user.status === "inactive" ? true : false)
+            )
+            label(for="statusInActive" class="form-check-label") Dừng hoạt động     
+
+        div(class="form-group")
+            button(
+                type="submit"
+                class = "btn btn-primary"    
+            ) Cập nhật
+
+    script(src="/admin/js/products.js") 

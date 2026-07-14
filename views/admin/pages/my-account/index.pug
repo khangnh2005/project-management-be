@@ -1,0 +1,15 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alert-success(5000)
+    if(user.avatar)
+        img(src=user.avatar width="300px" height="200px")
+    else 
+        img(src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAswMBIgACEQEDEQH/xAAaAAEAAwEBAQAAAAAAAAAAAAAAAQUGBAID/8QAMBABAAICAQIEBAUEAwEAAAAAAAECAwQRBSESMUFhMlFxsRNCUoHBImKC0UNyoRT/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A24AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJiOZiI7zPlAIHTTQ27xzXXv+/EfdM9N3Ijn8Cf2tE/yDlHvJjyYp4yY7U/7Rw8AAAAAAAAAAAAAAAAAA6dDVnazxWfgjvafYHvR6ffamLTPgw/q9Z+i819bDrxxhpEe/nM/u+la1pWK0rFax2iI9EgAAi1YtWYtWLV9YmOVXvdJrxN9X4v0fP6LUBk5iazMTExMIXPWdSJrOzSOJj44+fupgAAAAAAAAAAAAAAGg6PijHqRbj+rJ3n6ejPtTrR4dbFHypH2B9AAAAAALVi1ZraOYmOJhlc+P8ABzXxz+W0w1TP9XjjqGTj14+wOIAAAAAAAAAAAAABp9K/4mnht/ZEfuzC56JsR4ba9p78+Kv09QWglAAAAAJjzZvql/HvZZ+U8L/ZzV18NstvSO3vPoy9pm1pm08zPeZ+YIAAAAAAAAAAAAAAe8WS2LJW9J8Nqzzy8ANLp7dNvF4qzEX/ADVme8OhlMeS+K8XxWmto9YW2t1ivls07/qrH8AtR8Kb2rkj+nPSPaZ4+71O1rRHM58cf5QD6ovaKVm1piK1jvMuHP1bWpExj5yT7RxCq293LtfHPhr6Ur5A+nUd2drJxTtirPbn193EAAAAAAAAAAAAAAAAPeLDlzW8OLHa8+0cg8Czw9Hy34nJkrT+2O8uvH0jWr8c3v8AWQUI0ten6kf8NZ+vKZ0NSfPBQGZGhv0vVt5VtX6WlzZeix54s0/5xz9gU46djR2Nfnx45mv6q94cwAAAAAAAAAAAACa1te0VrEzafKIe8GK+fLXHjjm0/wDjQaWlj1K9v6sn5rzHf9vYHHp9J/PtefpSJ+60x0pjr4cdYrX5RCQEoAEiAEiAEuLb6dh2Im0R+Hk+dYdgDM7Wpl1bcZa9vS0eUvg1eTHTLSaZKxas+cSoeo6E6s+OnNsU+U+tfqDiAAAAAAAAeqUtkvWlImbWniIh5XPRdXw1/wDovHee1PaPmDs0dSmpi4jve3x2+c/6dCUAAAAAAAAAAAFqxas1tHNZjiYn5ADO9Q051MsxHfHb4J/hyNRta9dnBbFbjvHaflPozOSlseS1Lxxas8TAPIAAAAAJpHivWs+Uzw1laxSsVrHERHEAAAAAAAAAAAAAAAB/pSdepFNmlq+d6c29wBWgAAA//9k=" width="250px" height="200px")
+    h2 Họ và tên #{user.fullName}
+    h3 Email : #{user.email}
+    h3 Số điện thoại : #{user.phone}
+    h3 Phân quyền : #{role.title}
+    button(class="btn btn-warning btn-sm ml-1")
+        a(href=`${prefixAdmin}/my-account/edit` style="color:white") Chỉnh sửa thông tin
