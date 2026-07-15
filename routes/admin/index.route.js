@@ -1,5 +1,5 @@
 
-const authMiddleware= require("../../middlewares/auth.middleware.js")
+const authMiddleware= require("../../middlewares/admin/auth.middleware.js")
 
 const dashboardRoute = require('./dashboard.route.js')
 const systemConfig = require('../../config/system.js')
