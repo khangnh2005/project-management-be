@@ -70,14 +70,18 @@ module.exports.adminProducts = async (req, res) => {
         }
 
         // Lấy ra thông tin người cập nhật gần nhất
-        const updatedBy = product.updatedBy.slice(-1)[0];
-        
-        const userUpdated = await Account.findOne({
-            _id : product.createdBy.account_id
-        })  
+        if(product.updatedBy && product.updatedBy.length > 0){
+            const updatedBy = product.updatedBy.slice(-1)[0];
+            
+            if(updatedBy){
+                const userUpdated = await Account.findOne({
+                    _id : updatedBy.account_id
+                })  
 
-        if(updatedBy){
-            updatedBy.accountFullname = userUpdated.fullName 
+                if(userUpdated){
+                    updatedBy.accountFullname = userUpdated.fullName 
+                }
+            }
         }
 
     }
