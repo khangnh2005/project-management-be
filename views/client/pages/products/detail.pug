@@ -4,14 +4,36 @@ block main
     .container.my-3
         .row
         .col-12
+            
             h1 <b>#{product.title}</b>  
+            
             p Ảnh sản phẩm:
             img(src=product.thumbnail, alt="" style="width:150px; height:150px") 
             p Mô tả: <b>!{product.description == " " ? "chưa có": product.description}</b>
+            p Danh mục : <b>#{category.title}</b>
             p Giá:  <b>#{product.price} đ</b>
+            
             p Giảm giá:  <b>#{product.discountPercentage} %</b>
+            p Giá mới:  <b>#{product.priceNew} đ</b>
             p Số lượng:   <b>#{product.stock}</b>
-            p Trạng thái:<b> #{product.status =="active" ? "Hoạt động" : "Không hoạt động"} </b>
+            p Trạng thái:<b> #{product.status == "active" ? "Hoạt động" : "Không hoạt động"} </b>
             p Vị trí: <b>#{product.position} </b>
-            p Tạo lúc:  <b>#{product.createdAt}</b>
+
+            form(
+                action=`/cart/add/${product.id}`
+                method="POST"
+                )
+                input(
+                    class="form-control mb-2"
+                    type="number"
+                    name="quantity"
+                    value="1"
+                    min="1"
+                    max=product.stock
+                )
+                button(
+                    type="submit"
+                    class="btn btn-success btn-block"
+                ) Thêm vào giỏ hàng
+            
     

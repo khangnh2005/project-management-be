@@ -4,12 +4,13 @@ const productsHelpers = require("../../helpers/products")
 const Product = require('../../models/product.model');
 const ProductCategory = require('../../models/product-category.model');
 const ProductCategoryHelpers = require('../../helpers/product-category');
+
 module.exports.index = async (req, res) => {
     const products = await Product.find({
         status : 'active',
         deleted : false
     }).sort({position : "desc"})
-    
+    productsHelpers.priceNewProducts(products)
     const newProducts = productsHelpers.priceNewProducts(products)
     res.render('client/pages/products/index.pug' ,{
         titlePage : 'Trang sản phẩm',
@@ -19,16 +20,22 @@ module.exports.index = async (req, res) => {
 
 module.exports.detail = async (req,res) =>{
     
-        const slug = req.params.slug;
+        const slug = req.params.slugProduct;
 
         const find = {
             slug : slug,
-            deleted : false
+            deleted : false,
+            status : "active"
         }
+        
         const product = await Product.findOne(find);
+        const category = await ProductCategory.findOne({_id : product.product_category_id})
+         productsHelpers.priceNewProduct(product)
         res.render("client/pages/products/detail" , {
             titlePage : "Chi tiết sản phẩm",
-            product : product
+            product : product,
+            category:category
+
         })
 
 }
@@ -43,9 +50,6 @@ module.exports.category = async (req,res )=>{
             slug : slugCategory
         })
         const id = productsCategory.id
-        
-       
-
 
 
         const listSubCategory = await ProductCategoryHelpers.getSubCategory(productsCategory.id);
