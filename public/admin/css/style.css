@@ -75,15 +75,16 @@
   }
 }
 
-
-/* end Show alert */
-
 [close-alert] {
   font-size: 20px;
   font-weight: 600;
   cursor: pointer;
  line-height: 30px;
 }
+
+/* end Show alert */
+
+
 
 /* button-delete-image */
 .hidden{
