@@ -35,5 +35,7 @@ header.header
                             - const patchProduct = "/products"
                             a(href="/products") Sản phẩm 
                             +sub-menu(layoutProductCategory , patchProduct)
+                        li 
+                            a(href="/cart") Giỏ hàng (#{miniCart ? miniCart.totalQuantity : 0})
                             
 

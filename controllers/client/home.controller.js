@@ -1,4 +1,5 @@
 const Product = require("../../models/product.model")
+const Cart = require("../../models/cart.model")
 
 const productsHelpers = require("../../helpers/products")
 // [GET] /home
