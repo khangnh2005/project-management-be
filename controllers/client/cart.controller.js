@@ -1,4 +1,33 @@
 const Cart = require("../../models/cart.model")
+const Product = require("../../models/product.model")
+const productHelpers = require("../../helpers/products")
+//[GET] /cart
+module.exports.index = async (req , res) =>{
+    const cart = await Cart.findOne({_id : req.cookies.cartId}) 
+
+    if(cart.products.length > 0 ){
+        for (const item of cart.products) {
+            const productId = item.product_id
+            const productInfo = await Product.findOne({
+                _id : productId
+            }).select("thumbnail title price slug productInfo discountPercentage")
+            productInfo.priceNew = productHelpers.priceNewProduct(productInfo)
+            item.productInfo = productInfo
+            item.totalPrice = item.productInfo.price * item.quantity
+            
+        }
+    }
+    cart.totalPrice = cart.products.reduce((sum , item)=>sum + item.totalPrice , 0)
+    console.log(cart.totalPrice)
+    res.render("client/pages/cart/index",{
+        titlePage: "Giỏ Hàng",
+        cartDetail : cart,
+        
+    })
+    
+}
+
+//[POST] /cart/add/:id
 module.exports.addPost = async (req , res) =>{
 
     try {
