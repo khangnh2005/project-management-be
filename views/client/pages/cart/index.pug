@@ -24,9 +24,9 @@ block main
                             th Hành động
                         tbody
                             if(cartDetail.products.length > 0)
-                                each item in cartDetail.products
+                                each item , index in cartDetail.products
                                     tr
-                                        td 1
+                                        td #{index + 1}
                                         td
                                             img(src=item.productInfo.thumbnail, alt="Sản phẩm 1" width="80px")
                                         td
