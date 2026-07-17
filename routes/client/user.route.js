@@ -9,5 +9,12 @@ route.post('/register'  ,
     validate.registerPost,
     userController.registerPost
 )
+route.post('/login'  , 
+    validate.loginPost,
+    userController.loginPost
+)
+
+route.get('/logout', userController.logout)
+
 
 module.exports = route

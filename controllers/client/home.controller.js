@@ -20,12 +20,10 @@ module.exports.index = async (req, res) => {
     }).sort({position : "desc"}).limit(6)
     const newProductsNew = productsHelpers.priceNewProducts(productsNew)
     
-    const cookie = req.cookies
     res.render('client/pages/home/index.pug' , {
         titlePage : 'Trang Chủ',
         productsFeatured : newProductsFeatured,
         productsNew : newProductsNew,
-        cookie : cookie
     }) 
 
     

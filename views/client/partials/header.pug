@@ -30,17 +30,21 @@ header.header
                 .inner-menu 
                     ul 
                         li 
-                            a(href="/") Home
+                            a(href="/") Home 
                         li(class ="sub-menu")
                             - const patchProduct = "/products"
                             a(href="/products") Sản phẩm 
                             +sub-menu(layoutProductCategory , patchProduct)
                         li 
                             a(href="/cart") Giỏ hàng (#{miniCart ? miniCart.totalQuantity : 0})
-                        li 
-                        li 
-                            a(href="/user/register") Đăng ký
-                        li
-                            a(href="/user/login") Đăng nhập
+                        if(user)
+                            li 
+                                a(href="/user/logout") Đăng Xuất
+                        else 
+                            li 
+                                a(href="/user/register") Đăng ký
+                            li 
+                                a(href="/user/login") Đăng nhập
+                            
                             
 
