@@ -64,7 +64,7 @@ module.exports.order = async (req , res) =>{
 
 module.exports.success= async (req , res) =>{
     const order = await Order.findOne({_id : req.params.orderId})
-    console.log(order)
+
 
     for (const product of order.products) {
         const productInfo = await Product.findOne({_id: product.product_id}).select("title thumbnail")
