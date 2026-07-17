@@ -18,7 +18,7 @@ module.exports.index = async (req , res) =>{
         }
     }
     cart.totalPrice = cart.products.reduce((sum , item)=>sum + item.totalPrice , 0)
-    console.log(cart.totalPrice)
+
     res.render("client/pages/cart/index",{
         titlePage: "Giỏ Hàng",
         cartDetail : cart,
@@ -66,4 +66,17 @@ module.exports.addPost = async (req , res) =>{
         req.flash("error" , "Thêm vào giỏ không hàng thành công")
         res.redirect(req.headers.referer)
     }
+}
+//[POST] /cart/delete/:id
+module.exports.delete = async (req , res) =>{
+    const cartId = req.cookies.cartId
+    const productId = req.params.productId
+    await Cart.updateOne({_id : cartId},
+        {
+            $pull : {products : {product_id:productId}}
+        }
+    )
+    
+    req.flash("success","Xoa san pham thanh cong")
+    res.redirect(req.headers.referer)
 }
