@@ -54,12 +54,18 @@ module.exports.loginPost = async (req , res )=>{
         res.redirect(req.headers.referer);
         return; 
     }
-
-    await Cart.updateOne({_id: req.cookies.cartId},
+    const cart = Cart.findOne({user_id : user.id})
+    if(cart){
+        res.cookie("cartId",cart.id)
+    }
+    else {
+        await Cart.updateOne({_id: req.cookies.cartId},
         {
             user_id : existUser.id
         }
     )
+    }
+    
 
     res.cookie("tokenUser" , existUser.tokenUser)
     req.flash("success" , "Đăng nhập thành công")
