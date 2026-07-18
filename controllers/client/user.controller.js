@@ -2,6 +2,7 @@ const md5 = require('md5')
 const User = require("../../models/users.model")
 const ForgotPassword = require("../../models/forgot-password.model")
 const generateHelper = require("../../helpers/generateRDString")
+const sendMailHelper = require("../../helpers/sendMail")
 module.exports.login = async (req , res )=>{
     res.render("client/pages/user/login",{
         titlePage : "Đăng nhập"
@@ -93,8 +94,67 @@ module.exports.forgotPasswordPost = async (req , res )=>{
     const forgotPassword = new ForgotPassword(objectForgotPassword)
     await forgotPassword.save();
     console.log(objectForgotPassword)
-     //Nếu tồn tại thì ta sẽ gửi mã otp về email
-    res.send("OKe")
+    //Nếu tồn tại thì ta sẽ gửi mã otp về email
+    const subject = "Mã otp xác minh lấy lại mật khẩu" 
+    const html = `
+        Mã OTP để lấy lại mật khẩu : <b>${otp}</b> 
+    `
+    sendMailHelper.sendMail(email , subject , html);
+
+    res.redirect(`/user/password/otp?email=${email}`)
 }
 
 
+module.exports.otpPassword = async (req , res )=>{
+    const email = req.query.email;
+    
+    res.render("client/pages/user/otp-password",{
+        titlePage : "Nhập mã otp",
+        email : email
+    })
+}
+
+module.exports.otpPasswordPost = async (req , res )=>{
+    const email = req.body.email;
+    const otp = req.body.otp
+    
+    const result = await ForgotPassword.findOne({
+        email : email,
+        otp : otp
+    })
+
+    if(!result){
+        req.flash("error","otp không hợp lệ!")
+        res.redirect(req.headers.referer)
+    }
+    const user = await User.findOne({email : email})
+
+    res.cookie("tokenUser" , user.tokenUser)
+    
+    res.redirect('/user/password/reset')
+    
+}
+
+module.exports.resetPassword = async (req , res )=>{
+
+    res.render("client/pages/user/reset-password",{
+        titlePage : "Đổi mật khẩu",
+    })
+}
+
+module.exports.resetPasswordPost = async (req , res )=>{
+    
+    const password = md5(req.body.password);
+    const tokenUser = req.cookies.tokenUser
+    
+  
+    const user = await User.updateOne({
+        tokenUser : tokenUser
+    } , {
+      password : password
+    })
+
+    req.flash("success" , "Đổi mật khẩu thành công")
+    res.redirect("/")
+
+}

@@ -20,6 +20,14 @@ route.post('/password/forgot',
     validate.forgotPasswordPost,
     userController.forgotPasswordPost
 )
+route.get('/password/otp', userController.otpPassword)
+route.post('/password/otp', userController.otpPasswordPost)
+route.get('/password/reset', userController.resetPassword)
+route.post('/password/reset', 
+    validate.confirmPasswordPost,
+    userController.resetPasswordPost
+)
+
 
 
 module.exports = route
