@@ -47,7 +47,11 @@ app.locals.moment = moment
 
 routeClient(app) // gọi hàm routeClient và truyền tham số app vào để có thể sử dụng được các phương thức của expresss trong file index.route.js
 routeAdmin(app) // gọi hàm routeAdmin và truyền tham số app vào để có thể sử dụng được các phương thức của expresss trong file index.route.js
-
+app.get(/.*/,(req,res)=>{
+  res.render("client/pages/error/404",{
+    tiltePage : "404 Not Fount"
+  })
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
