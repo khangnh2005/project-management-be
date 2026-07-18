@@ -3,6 +3,7 @@ const User = require("../../models/users.model")
 const ForgotPassword = require("../../models/forgot-password.model")
 const generateHelper = require("../../helpers/generateRDString")
 const sendMailHelper = require("../../helpers/sendMail")
+const Cart = require("../../models/cart.model")
 module.exports.login = async (req , res )=>{
     res.render("client/pages/user/login",{
         titlePage : "Đăng nhập"
@@ -54,6 +55,12 @@ module.exports.loginPost = async (req , res )=>{
         return; 
     }
 
+    await Cart.updateOne({_id: req.cookies.cartId},
+        {
+            user_id : existUser.id
+        }
+    )
+
     res.cookie("tokenUser" , existUser.tokenUser)
     req.flash("success" , "Đăng nhập thành công")
     res.redirect("/")
@@ -61,8 +68,10 @@ module.exports.loginPost = async (req , res )=>{
 }
 
 module.exports.logout = async (req , res )=>{
-    res.clearCookie('tokenUser');
-    res.redirect(`/user/login`)
+    res.clearCookie('cartId', { path: '/' });  
+    res.clearCookie('tokenUser', { path: '/' });
+   
+    res.redirect(`/`)
 }
 
 
