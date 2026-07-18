@@ -15,6 +15,11 @@ route.post('/login'  ,
 )
 
 route.get('/logout', userController.logout)
+route.get('/password/forgot', userController.forgotPassword)
+route.post('/password/forgot', 
+    validate.forgotPasswordPost,
+    userController.forgotPasswordPost
+)
 
 
 module.exports = route
