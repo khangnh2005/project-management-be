@@ -158,3 +158,17 @@ module.exports.resetPasswordPost = async (req , res )=>{
     res.redirect("/")
 
 }
+
+
+module.exports.info = async (req , res )=>{
+    const tokenUser = req.cookies.tokenUser 
+
+    const user = await User.findOne({
+        tokenUser : tokenUser
+    }).select("-password")
+    console.log(user)
+    res.render("client/pages/user/info",{
+        titlePage : "Profile",
+        userInfo : user
+    })
+}

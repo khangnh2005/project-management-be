@@ -1,0 +1,16 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
+block main
+    +alert-success(5000)
+    +alert-error(5000)
+    
+    .container.my-3
+        .row
+            .col-12
+                +box-head('Thông tin tài khoản') 
+                h2 Họ và tên #{userInfo.fullName}
+                h3 Email : #{userInfo.email}
+                h3 Trạng thái : #{userInfo.status =="active"?"Hoạt động" : "Dừng hoạt động"}
+                
+            
