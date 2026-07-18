@@ -9,6 +9,7 @@ const RoleRoute = require('./roles.route.js')
 const AccountRoute = require('./accounts.route.js')
 const AuthRoute = require('./auth.route.js')
 const MyAccountRoute = require('./my-account.route.js')
+const SettingRoute = require('./settings.route.js')
 
 module.exports = (app) => { 
     const PATH_ADMIN = systemConfig.prefixAdmin
@@ -33,6 +34,8 @@ module.exports = (app) => {
     app.use(PATH_ADMIN + '/my-account',
         authMiddleware.requireAuth,
         MyAccountRoute) 
-
+    app.use(PATH_ADMIN + '/settings',
+        authMiddleware.requireAuth,
+        SettingRoute) 
 }
 

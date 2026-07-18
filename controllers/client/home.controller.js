@@ -20,6 +20,7 @@ module.exports.index = async (req, res) => {
     }).sort({position : "desc"}).limit(6)
     const newProductsNew = productsHelpers.priceNewProducts(productsNew)
     
+    
     res.render('client/pages/home/index.pug' , {
         titlePage : 'Trang Chủ',
         productsFeatured : newProductsFeatured,
