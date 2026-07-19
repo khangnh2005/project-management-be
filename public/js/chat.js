@@ -44,3 +44,29 @@ if(bodyChat){
     bodyChat.scrollTop = bodyChat.scrollHeight
 }
 //Scroll to bottom
+
+//Emoji-picker
+const buttonIcon = document.querySelector(".button-icon");
+const tooltip = document.querySelector(".tooltip");
+
+if (buttonIcon && tooltip) {
+  // Show/Hide Popup
+  buttonIcon.onclick = (e) => {
+    // Không toggle nếu click vào tooltip hoặc emoji-picker
+    if (tooltip.contains(e.target)) return;
+    tooltip.classList.toggle("shown");
+  };
+
+  //insert icon to input
+  const emojiPicker = document.querySelector('emoji-picker')
+  if(emojiPicker){
+      emojiPicker.addEventListener('emoji-click', (event) => {
+          const input = document.querySelector('.chat .inner-form input[name="content"]')
+          if(input){
+              input.value += event.detail.unicode
+              input.focus()
+          }
+      })
+  }
+}
+//Emoji-picker
