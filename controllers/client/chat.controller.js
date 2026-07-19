@@ -3,14 +3,23 @@ const User = require("../../models/users.model")
 module.exports.index = async (req,res)=>{
     // SocketIO
     _io.once('connection', (socket) => {
+        const userId = res.locals.user.id
+        const fullName = res.locals.user.fullName
         console.log('a user connected' , socket.id);
         socket.on("CLIENT_SEND_MESSAGE" , async (content) =>{
-            console.log(res.locals.user.id)
-            console.log(content)
-            const chat = new Chat({user_id : res.locals.user.id ,content : content})
-            await chat.save();
             
+            
+            const chat = new Chat({user_id : userId ,content : content})
+            await chat.save();   
+            
+            _io.emit("SERVER_RETURN_MESSAGE",{
+                userId : userId,
+                fullName : fullName,
+                content : content
+            })
         })
+
+
     });
     //End SocketIOs
     // lấy data từ database 

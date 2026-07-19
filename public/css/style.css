@@ -210,6 +210,8 @@ main {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-height: 450px;
+
 }
 
 /* Incoming messages (other person) */
