@@ -1,7 +1,7 @@
 const Cart = require("../../models/cart.model")
 
 module.exports.cartId = async (req , res , next )=>{
-    if(!req.cookies.cartId) {
+    if(!req.cookies.cartId || req.cookies.cartId === "undefined") {
         const cart = new Cart();
         await cart.save();
 

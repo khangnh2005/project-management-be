@@ -51,6 +51,7 @@ const io = new Server(server);
 io.on('connection', (socket) => {
   console.log('a user connected' , socket.id);
 });
+global._io = io
 // end Socket IO
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin // khai báo một biến toàn cục có tên là prefixAdmin và gán giá trị là '/admin', biến này sẽ được sử dụng trong các file pug để tạo đường dẫn đến các trang admin

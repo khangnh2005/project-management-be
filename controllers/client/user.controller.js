@@ -54,7 +54,7 @@ module.exports.loginPost = async (req , res )=>{
         res.redirect(req.headers.referer);
         return; 
     }
-    const cart = Cart.findOne({user_id : user.id})
+    const cart = Cart.findOne({user_id : existUser.id})
     if(cart){
         res.cookie("cartId",cart.id)
     }
