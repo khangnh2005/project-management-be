@@ -5,7 +5,11 @@ const chatSchema = new mongoose.Schema({
     room_chat_id : String,
     content : String ,
     images : Array,
-    deletedAt :  Date 
+    deletedAt :  Date ,
+    deleted: {
+        type : Boolean,
+        default : false
+    },
 },
 {
     timestamps : true

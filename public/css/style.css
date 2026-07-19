@@ -223,17 +223,17 @@ main {
 .chat .inner-incoming .inner-name {
   font-size: 12px;
   font-weight: 600;
-  color: #FE5DA3;
+  color: #f794cf;
   margin-bottom: 4px;
   padding-left: 12px;
 }
 
 .chat .inner-incoming .inner-content {
-  background: #fff;
+  background: #efeded;
   color: #333;
   padding: 10px 14px;
   border-radius: 18px 18px 18px 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
   font-size: 14px;
   line-height: 1.5;
   word-break: break-word;
