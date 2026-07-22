@@ -46,7 +46,9 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+    maxHttpBufferSize: 100 * 1024 * 1024 // 50MB
+});
 
 global._io = io
 // end Socket IO

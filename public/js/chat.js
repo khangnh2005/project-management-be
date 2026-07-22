@@ -1,12 +1,51 @@
+
+// Upload Image 
+import { FileUploadWithPreview } from "https://unpkg.com/file-upload-with-preview/dist/index.js";
+
+// Dòng 2 trở đi: Khởi tạo (Lưu ý: Không dùng FileUploadWithPreview.FileUploadWithPreview nữa, gọi trực tiếp tên class)
+const upload = new FileUploadWithPreview('upload-images', {
+  multiple: true,
+  maxFileCount: 7
+});
+// upload.cachedFileArray;
+// upload.emulateInputSelection(); // to open image browser
+
+// Upload Image End
+
+
+
+
 // CLIENT_SEND_MESSAGE
 const formSendData = document.querySelector(".chat .inner-form")
 if(formSendData){
-    formSendData.addEventListener("submit" ,(e)=>{
+    formSendData.addEventListener("submit" , async (e)=>{
         e.preventDefault();
-        const content = e.target.elements.content.value
-        if(content){
-            socket.emit("CLIENT_SEND_MESSAGE", content)
+        const content = e.target.elements.content.value;
+        const fileArray = upload.cachedFileArray;
+        
+        
+        // Convert File objects to ArrayBuffer → Uint8Array → plain array (JSON-serializable)
+        const images = [];
+        if(fileArray.length > 0){
+            for (const file of fileArray) {
+                const arrayBuffer = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.readAsArrayBuffer(file);
+                    reader.onload = (event) => resolve(event.target.result);
+                });
+                const uint8Array = new Uint8Array(arrayBuffer);
+                images.push(Array.from(uint8Array)); // chỉ gửi mảng byte thuần
+            }
+        }
+        
+        
+        if(content || images.length > 0){
+            socket.emit("CLIENT_SEND_MESSAGE", {
+                content : content,
+                images : images
+            })
             e.target.elements.content.value = ""
+            upload.resetPreviewPanel(); // clear all selected images
             socket.emit("CLIENT_SEND_TYPING", "hide");
         }
     })
@@ -26,12 +65,23 @@ socket.on("SERVER_RETURN_MESSAGE" , async (data) =>{
     else{
          htmlFullname = `<div class ="inner-name">${data.fullName}</div>    `
         div.classList.add("inner-incoming")
-
+    }
+    
+    let htmlImages = "";
+    if(data.images && data.images.length > 0){
+        data.images.forEach(url => {
+            htmlImages += `<img src="${url}" alt="image">`;
+        });
+    }
+    
+    let htmlContent = "";
+    if(data.content){
+        htmlContent = `<div class="inner-content">${data.content}</div>`;
     }
     div.innerHTML= `
         ${htmlFullname}           
-        <div class ="inner-content">${data.content}</div>           
-        
+        ${htmlContent}
+        <div class="inner-images">${htmlImages}</div>
     `
 
     body.insertBefore(div , boxTyping)
@@ -97,8 +147,9 @@ if (inputChat) {
 }
 //Typing - show/hide
 
-//Emoji-picker
 
+
+//Emoji-picker
 
 //SERVER_RETURN_TYPING
 const elementListTyping = document.querySelector(".chat .inner-list-typing");
@@ -142,4 +193,3 @@ if (elementListTyping) {
     });
 }
 //SERVER_RETURN_TYPING
-

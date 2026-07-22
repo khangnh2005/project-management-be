@@ -14,9 +14,21 @@ block main
                     each item in chats
                         div(class=(item.user_id == user.id ? "inner-outgoing": "inner-incoming"))
                             if(item.user_id != user.id)
-                                .inner-name #{item.infoUser.fullName}             
-                            .inner-content #{item.content}
+                                .inner-name #{item.infoUser.fullName}    
+                            if(item.content)         
+                                .inner-content #{item.content}
+                            if(item.images && item.images.length > 0)
+                                .inner-images 
+                                    each image in item.images
+                                        img(src=image)
                     div(class="inner-list-typing")
+
+            .inner-preview-images
+                //- Container upload file của thư viện
+                div(
+                class="custom-file-container"
+                data-upload-id="upload-images"
+                )
             .inner-foot
                 form(
                     class="inner-form"
@@ -27,13 +39,14 @@ block main
                         placeholder="Nhập nội dung..."
                         name="content"
                     )
+                    label(
+                        class="button-icon-image" 
+                        for="file-upload-with-preview-upload-images"  
+                    ) 
+                        i.fa-regular.fa-image 
                     span(class="button-icon") 
                         i.fa-regular.fa-face-smile
                         .tooltip(role='tooltip') 
                             emoji-picker(class='light')
                     button
                         i.fa-solid.fa-paper-plane
-                    
-                    
-
-    
