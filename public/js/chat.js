@@ -1,7 +1,9 @@
+//import
 
-// Upload Image 
 import { FileUploadWithPreview } from "https://unpkg.com/file-upload-with-preview/dist/index.js";
 
+
+// Upload Image 
 // Dòng 2 trở đi: Khởi tạo (Lưu ý: Không dùng FileUploadWithPreview.FileUploadWithPreview nữa, gọi trực tiếp tên class)
 const upload = new FileUploadWithPreview('upload-images', {
   multiple: true,
@@ -86,6 +88,9 @@ socket.on("SERVER_RETURN_MESSAGE" , async (data) =>{
 
     body.insertBefore(div , boxTyping)
     body.scrollTop = body.scrollHeight
+
+    //Preview Image
+    const gallery = new Viewer(div);
 }) 
 //SERVER_RETURN_MESSAGE
 
@@ -193,3 +198,10 @@ if (elementListTyping) {
     });
 }
 //SERVER_RETURN_TYPING
+
+//Preview Full Image
+const bodyChatPreviewImage = document.querySelector(".chat .inner-body")
+if(bodyChatPreviewImage){
+    const gallery = new Viewer(bodyChatPreviewImage);
+}
+//Preview Full Image End
