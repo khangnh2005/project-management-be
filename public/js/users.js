@@ -45,6 +45,21 @@ if(listBtnRejectFriend.length >0){
 // Chuc nang xoa loi moi ket ban End
 
 
+// Chuc nang chap nhan loi moi ket ban 
+const listBtnAcceptFriend = document.querySelectorAll("[btn-accept-friend]")
+if(listBtnAcceptFriend.length > 0){
+    listBtnAcceptFriend.forEach(button => {
+        button.addEventListener("click", ()=>{
+            const userId = button.getAttribute("btn-accept-friend")
+            const boxUser = button.closest(".box-user")
+            boxUser.classList.add("accepted")
+
+            socket.emit("CLIENT_ACCEPT_FRIEND" , userId)
+        })
+    })
+}
+
+
 
 
 

@@ -68,7 +68,7 @@ module.exports = (res)=>{
 
         socket.on("CLIENT_REJECT_FRIEND" , async (userId)=>{
             const myUserId = res.locals.user.id
-            console.log(userId)
+            
             
             //Xoa id cua B khoi acceptFriend cua A
             
@@ -99,6 +99,59 @@ module.exports = (res)=>{
                         _id : userId
                     },
                     {
+                        $pull : {requestFriends : myUserId}
+                    }
+                )
+            }
+        })
+
+        socket.on("CLIENT_ACCEPT_FRIEND" , async (userId)=>{
+            const myUserId = res.locals.user.id
+            console.log(userId)
+            //Them {user_id , room_chat_id} cua B vao friendList cua A 
+            //Xoa id cua B khoi acceptFriend cua A
+            
+            const existIdAccept = await User.findOne({
+                _id : myUserId,
+                acceptFriends : userId 
+            })
+
+            if(existIdAccept){
+                await User.updateOne(
+                    {
+                        _id : myUserId
+                    },
+                    {
+                        $push : {friendList :{
+                                user_id: userId,
+                                room_chat_id: ""
+                            }
+                        },
+                        $pull : {acceptFriends : userId}
+                    }
+                )
+            }
+
+
+            //Them {user_id , room_chat_id} cua A vao friendList cua B
+            //Xoa id cua A khoi requestFriend cua B
+            const existIdRequest = await User.findOne({
+                _id : userId,
+                requestFriends : myUserId 
+            })
+
+            if(existIdRequest){
+                await User.updateOne(
+                    {
+                        _id : userId
+                    },
+                    {
+                        $push : {friendList :
+                                    {
+                                        user_id: myUserId,
+                                        room_chat_id: ""
+                                    }
+                                },
                         $pull : {requestFriends : myUserId}
                     }
                 )
