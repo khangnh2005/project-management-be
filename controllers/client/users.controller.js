@@ -35,10 +35,14 @@ module.exports.friends = async (req , res )=>{
 module.exports.request = async (req , res )=>{
     const userId = res.locals.user.id
     const users = await User.find({
-        _id : {$ne : userId , $in : res.locals.user.requestFriends}, //ne : not equal ,yt nin : not in (trong mang)
+        _id : { $in : res.locals.user.requestFriends}, //ne : not equal ,yt nin : not in (trong mang)
         deleted : false,
         status : "active"
     }).select("-password") 
+
+    //userSocket
+    userSocket(res)
+    //userSocket end
 
     res.render("client/pages/users/request",{
         titlePage : "Lời mời đã gửi",

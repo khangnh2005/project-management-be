@@ -36,6 +36,35 @@ module.exports = (res)=>{
             }
             
         });
+
+        socket.on("CLIENT_CANCEL_FRIEND" , async (userId)=>{
+            const myUserId =res.locals.user.id // ID cua A
+            //userID : ID cua B
+
+            //Xoa id cua A khoi acceptFriend cua B
+            const existIdAccept = await User.findOne({_id : userId , acceptFriends : myUserId})
+            if(existIdAccept){
+                await User.updateOne({
+                    _id : userId
+                },
+                {
+                    $pull : {acceptFriends : myUserId}
+                }
+                )
+            }
+            //Xoa id cua B khoi requestFriends cua A
+            const existIdRequest = await User.findOne({_id : myUserId , requestFriends : userId})
+            if(existIdRequest){
+                await User.updateOne({
+                    _id : myUserId
+                },
+                {
+                    $pull : {requestFriends : userId}
+                }
+                )
+            }
+           
+        })
    
     })
 }
