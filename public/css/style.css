@@ -558,4 +558,19 @@ emoji-picker {
   display: inline-block;
 }
 
+.box-user [btn-deleted-friend] {
+  display: none;
+}
+
+.box-user.reject [btn-accept-friend] {
+  display: none;
+}
+
+.box-user.reject [btn-reject-friend] {
+  display: none;
+}
+
+.box-user.reject [btn-deleted-friend] {
+  display: inline-block;
+}
 /* End box-user */

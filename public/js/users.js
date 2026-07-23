@@ -28,4 +28,23 @@ if(listBtnCancelFriend.length > 0){
 }
 // Chuc nang huy yeu cau end 
 
+// Chuc nang xoa loi moi ket ban 
+const listBtnRejectFriend = document.querySelectorAll("[btn-reject-friend]")
+if(listBtnRejectFriend.length >0){
+    listBtnRejectFriend.forEach(button =>{
+        
+        button.addEventListener("click",()=>{
+            const userId = button.getAttribute("btn-reject-friend")
+            const boxUser = button.closest(".box-user")
+            boxUser.classList.add("reject")
+            socket.emit("CLIENT_REJECT_FRIEND",userId)
+        })
+        
+    })
+}
+// Chuc nang xoa loi moi ket ban End
+
+
+
+
 

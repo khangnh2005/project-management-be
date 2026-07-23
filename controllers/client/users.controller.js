@@ -51,7 +51,19 @@ module.exports.request = async (req , res )=>{
     })
 }
 module.exports.accept = async (req , res )=>{
+    const userId = res.locals.user.id
+    const users = await User.find({
+        _id : { $in : res.locals.user.acceptFriends},
+        deleted : false,
+        status : "active"
+    }).select("-password")
+    
+     //userSocket
+    userSocket(res)
+    //userSocket end
+    
     res.render("client/pages/users/accept",{
-        titlePage : "Lời mời kết bạn"
+        titlePage : "Lời mời kết bạn",
+        users : users
     })
 }

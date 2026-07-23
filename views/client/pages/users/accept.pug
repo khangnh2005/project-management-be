@@ -9,3 +9,32 @@ block main
     .row
       .col-12
         +box-head("Lời mời kết bạn")
+
+    .row
+      each user in users
+        .col-6
+          div(class="box-user")
+            div(class="inner-avatar")
+              img(
+              src=(user.avatar ? user.avatar : "/images/avatar.png")
+              alt="Le Van A"
+              )
+            div(class="inner-info")
+              div(class="inner-name") #{user.fullName}
+              div(class="inner-buttons")
+                  button(
+                      class="btn btn-sm btn-primary mr-1"
+                      btn-accept-friend=user.id
+                  ) Chấp Nhận 
+                  button(
+                      class="btn btn-sm btn-secondary mr-1"
+                      btn-reject-friend=user.id
+                  ) Từ Chối
+                  button(
+                      class="btn btn-sm btn-secondary mr-1"
+                      btn-deleted-friend
+                      disabled
+                  ) Đã Xóa
+      
+block script 
+  script(src="/js/users.js")
