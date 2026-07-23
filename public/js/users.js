@@ -59,7 +59,20 @@ if(listBtnAcceptFriend.length > 0){
     })
 }
 
+//SERVER_RETURN_ACCEPT_FRIEND_LENGTH
+const badgeUserAccept = document.querySelector("[badge-users-accept]")
+if(badgeUserAccept){
+    const userAcceptID = badgeUserAccept.getAttribute("badge-users-accept")
+    socket.on("SERVER_RETURN_ACCEPT_FRIEND_LENGTH",data =>{
+        
+        if(data.userId == userAcceptID){
+            badgeUserAccept.innerHTML = data.lengthAcceptFriend
+        }
+        
+    })
+}
 
+//SERVER_RETURN_ACCEPT_FRIEND_LENGTH END
 
 
 

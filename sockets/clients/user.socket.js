@@ -34,7 +34,19 @@ module.exports = (res)=>{
                     }
                 )
             }
+
+            //Lay do dai acceptFriend cua B va tra ve cho B
+            const infoUserB = await User.findOne({
+                _id : userId
+            })
             
+            const lengthAcceptFriend = infoUserB.acceptFriends.length;
+
+            socket.broadcast.emit("SERVER_RETURN_ACCEPT_FRIEND_LENGTH",{
+                userId : userId,
+                lengthAcceptFriend : lengthAcceptFriend
+            }
+            )
         });
 
         socket.on("CLIENT_CANCEL_FRIEND" , async (userId)=>{
@@ -63,6 +75,18 @@ module.exports = (res)=>{
                 }
                 )
             }
+            //Lay do dai acceptFriend cua B va tra ve cho B
+            const infoUserB = await User.findOne({
+                _id : userId
+            })
+            
+            const lengthAcceptFriend = infoUserB.acceptFriends.length;
+
+            socket.broadcast.emit("SERVER_RETURN_ACCEPT_FRIEND_LENGTH",{
+                userId : userId,
+                lengthAcceptFriend : lengthAcceptFriend
+            }
+            )
            
         })
 
