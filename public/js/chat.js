@@ -5,10 +5,12 @@ import { FileUploadWithPreview } from "https://unpkg.com/file-upload-with-previe
 
 // Upload Image 
 // Dòng 2 trở đi: Khởi tạo (Lưu ý: Không dùng FileUploadWithPreview.FileUploadWithPreview nữa, gọi trực tiếp tên class)
-const upload = new FileUploadWithPreview('upload-images', {
-  multiple: true,
-  maxFileCount: 7
-});
+
+ const upload = new FileUploadWithPreview('upload-images', {
+    multiple: true,
+    maxFileCount: 7
+  });
+
 // upload.cachedFileArray;
 // upload.emulateInputSelection(); // to open image browser
 

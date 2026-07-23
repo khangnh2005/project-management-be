@@ -16,8 +16,8 @@ const userSchema = new mongoose.Schema({
         type:String,
         default : "active"
     } ,
-    requestFriends : Array,
-    acceptFriends : Array,
+    requestFriends : Array, //Loi moi da gui
+    acceptFriends : Array, //Loi moi da nhan
     friendList:[
         {
             user_id : String,
