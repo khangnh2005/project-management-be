@@ -3,50 +3,53 @@ include ../../mixins/box-head.pug
 
 block main
   .container.my-3
-    .row
-      .col-12
-        +box-head("Chat")
+    include ../../partials/list-btn-users.pug
+    
 
     .row
-      .col-12
-        .chat(my-id=user.id)
-            .inner-body
-                    each item in chats
-                        div(class=(item.user_id == user.id ? "inner-outgoing": "inner-incoming"))
-                            if(item.user_id != user.id)
-                                .inner-name #{item.infoUser.fullName}    
-                            if(item.content)         
-                                .inner-content #{item.content}
-                            if(item.images && item.images.length > 0)
-                                .inner-images 
-                                    each image in item.images
-                                        img(src=image)
-                    div(class="inner-list-typing")
+        .col-12
+            +box-head("Chat")
 
-            .inner-preview-images
-                //- Container upload file của thư viện
-                div(
-                class="custom-file-container"
-                data-upload-id="upload-images"
-                )
-            .inner-foot
-                form(
-                    class="inner-form"
-                    action=""
+    .row
+        .col-12
+            .chat(my-id=user.id)
+                .inner-body
+                        each item in chats
+                            div(class=(item.user_id == user.id ? "inner-outgoing": "inner-incoming"))
+                                if(item.user_id != user.id)
+                                    .inner-name #{item.infoUser ? item.infoUser.fullName : "Người dùng"}    
+                                if(item.content)         
+                                    .inner-content #{item.content}
+                                if(item.images && item.images.length > 0)
+                                    .inner-images 
+                                        each image in item.images
+                                            img(src=image)
+                        div(class="inner-list-typing")
+
+                .inner-preview-images
+                    //- Container upload file của thư viện
+                    div(
+                    class="custom-file-container"
+                    data-upload-id="upload-images"
                     )
-                    input(
-                        type="text"
-                        placeholder="Nhập nội dung..."
-                        name="content"
-                    )
-                    label(
-                        class="button-icon-image" 
-                        for="file-upload-with-preview-upload-images"  
-                    ) 
-                        i.fa-regular.fa-image 
-                    span(class="button-icon") 
-                        i.fa-regular.fa-face-smile
-                        .tooltip(role='tooltip') 
-                            emoji-picker(class='light')
-                    button
-                        i.fa-solid.fa-paper-plane
+                .inner-foot
+                    form(
+                        class="inner-form"
+                        action=""
+                        )
+                        input(
+                            type="text"
+                            placeholder="Nhập nội dung..."
+                            name="content"
+                        )
+                        label(
+                            class="button-icon-image" 
+                            for="file-upload-with-preview-upload-images"  
+                        ) 
+                            i.fa-regular.fa-image 
+                        span(class="button-icon") 
+                            i.fa-regular.fa-face-smile
+                            .tooltip(role='tooltip') 
+                                emoji-picker(class='light')
+                        button
+                            i.fa-solid.fa-paper-plane
