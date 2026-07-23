@@ -1,7 +1,7 @@
 const Chat = require("../../models/chat.model") 
    
 const uploadToCloudinary = require("../../helpers/uploadToCloudinary")
-    
+     
 module.exports = (res)=>{
         // SocketIO
     _io.once('connection', (socket) => {
@@ -58,4 +58,3 @@ module.exports = (res)=>{
     });
     //End SocketIO
 }
-    
