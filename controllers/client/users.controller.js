@@ -4,12 +4,15 @@ const userSocket = require("../../sockets/clients/user.socket")
 module.exports.notFriend = async (req , res )=>{
     const userId = res.locals.user.id
     
+    const friendlist = res.locals.user.friendList
+    const friendListId = friendlist.map(item => item.user_id )
     const users = await User.find({
         $and:[
             {_id : {$ne : userId}},
             {_id : {$nin : res.locals.user.requestFriends}},
             {_id : {$nin : res.locals.user.acceptFriends}},
             {_id : {$nin : res.locals.user.acceptFriends}},
+            {_id : {$nin : friendListId}},
             
         ], //ne : not equal ,yt nin : not in (trong mang)
         deleted : false,
@@ -27,11 +30,25 @@ module.exports.notFriend = async (req , res )=>{
     })
 }
 module.exports.friends = async (req , res )=>{
-    
+        const userId = res.locals.user.id
+
+        const friendlist = res.locals.user.friendList
+        const friendListId = friendlist.map(item => item.user_id )
+
+        const users = await User.find({
+            _id : {$in : friendListId},
+            deleted : false,
+            status : "active"
+        }).select("-password")
+        
+        
+        //userSocket
+        userSocket(res)
+        //userSocket end
 
     res.render("client/pages/users/friend",{
         titlePage : "Danh sách bạn bè",
-        
+        users : users
     })
 }
 module.exports.request = async (req , res )=>{

@@ -97,6 +97,12 @@ module.exports = (res)=>{
                 lengthAcceptFriend : lengthAcceptFriend
             }
             )
+
+            socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL_FRIEND",{
+                userId : userId,
+                myUserId : myUserId
+            }
+            )
            
         })
 

@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
         type:String,
         default : "active"
     } ,
+    statusOnline: String,
     requestFriends : Array, //Loi moi da gui
     acceptFriends : Array, //Loi moi da nhan
     friendList:[

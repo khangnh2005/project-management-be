@@ -68,15 +68,32 @@ module.exports.loginPost = async (req , res )=>{
     
 
     res.cookie("tokenUser" , existUser.tokenUser)
+    
+    await User.updateOne({
+        tokenUser : existUser.tokenUser,
+    }
+    ,{
+        statusOnline : "online"
+    }
+    )
+
     req.flash("success" , "Đăng nhập thành công")
     res.redirect("/")
 
 }
 
 module.exports.logout = async (req , res )=>{
+    await User.updateOne({
+        tokenUser : req.cookies.tokenUser,
+    }
+    ,{
+        statusOnline : "offline"
+    }
+    )
     res.clearCookie('cartId', { path: '/' });  
     res.clearCookie('tokenUser', { path: '/' });
-   
+    
+    
     res.redirect(`/`)
 }
 
