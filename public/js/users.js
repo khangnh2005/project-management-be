@@ -67,12 +67,57 @@ if(badgeUserAccept){
         
         if(data.userId == userAcceptID){
             badgeUserAccept.innerHTML = data.lengthAcceptFriend
-        }
-        
+        }  
     })
 }
 
 //SERVER_RETURN_ACCEPT_FRIEND_LENGTH END
+const dataUsersAccept = document.querySelector("[data-users-accept]")
+if(dataUsersAccept){
+    socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND",(data) =>{
+        const userAcceptID = dataUsersAccept.getAttribute("data-users-accept")
+        if(data.userId == userAcceptID){
+            //Ve ra giao dien
+            const div = document.createElement("div")
+            div.classList.add("col-6")
+            div.innerHTML = `
+                <div class="box-user">
+                    <div class="inner-avatar">
+                        <img src=${data.infoUser.avatar ? data.infoUser.avatar : "/images/avatar.png"} alt="Le Van A"></div> 
+                        <div class="inner-info">
+                        <div class="inner-name">${data.infoUser.fullName}</div>
+                        <div class="inner-buttons">
+                            <button class="btn btn-sm btn-primary mr-1" btn-accept-friend=${data.infoUser._id}>Chấp Nhận </button>
+                            <button class="btn btn-sm btn-secondary mr-1" btn-reject-friend=${data.infoUser._id}>Từ Chối</button>
+                            <button class="btn btn-sm btn-secondary mr-1" btn-deleted-friend="" disabled="">Đã Xóa</button>
+                            <button class="btn btn-sm btn-secondary mr-1" btn-accepted-friend="" disabled="">Các bạn đã là bạn bè</button>
+                        </div>
+                    </div>
+                </div>
+            `
+            dataUsersAccept.appendChild(div)
+
+            //Chuc nang xoa loi moi
+            const buttonReject = div.querySelector("[btn-reject-friend]")
+            buttonReject.addEventListener("click",()=>{
+                const userId = buttonReject.getAttribute("btn-reject-friend")
+                const boxUser = buttonReject.closest(".box-user")
+                boxUser.classList.add("reject")
+                socket.emit("CLIENT_REJECT_FRIEND",userId)
+            })
+            //Chuc nang chap nhan loi moi
+            const buttonAccept = div.querySelector("[btn-accept-friend]")
+            buttonAccept.addEventListener("click", ()=>{
+                const userId = buttonAccept.getAttribute("btn-accept-friend")
+                const boxUser = buttonAccept.closest(".box-user")
+                boxUser.classList.add("accepted")
+
+                socket.emit("CLIENT_ACCEPT_FRIEND" , userId)
+            })
+        }  
+    })
+}
+
 
 
 

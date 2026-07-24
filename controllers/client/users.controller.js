@@ -9,6 +9,8 @@ module.exports.notFriend = async (req , res )=>{
             {_id : {$ne : userId}},
             {_id : {$nin : res.locals.user.requestFriends}},
             {_id : {$nin : res.locals.user.acceptFriends}},
+            {_id : {$nin : res.locals.user.acceptFriends}},
+            
         ], //ne : not equal ,yt nin : not in (trong mang)
         deleted : false,
         status : "active"
