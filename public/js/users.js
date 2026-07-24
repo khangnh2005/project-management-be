@@ -132,3 +132,27 @@ socket.on("SERVER_RETURN_USER_ID_CANCEL_FRIEND", (data) => {
 });
 // End SERVER_RETURN_USER_ID_CANCEL_FRIEND
 
+// SERVER_RETURN_USER_ONLINE
+socket.on("SERVER_RETURN_USER_ONLINE" , UserId =>{
+    const dataUsersFriend = document.querySelector("[data-users-friend]");
+    const boxUser =dataUsersFriend.querySelector(`[user-id="${UserId}"]`)
+    if(boxUser){
+            boxUser.querySelector("[status]").setAttribute("status", "online")
+    }
+
+})
+// SERVER_RETURN_USER_ONLINE end
+
+// SERVER_RETURN_USER_OFFLINE
+socket.on("SERVER_RETURN_USER_STATUS_ONLINE" , (data) =>{
+    const dataUsersFriend = document.querySelector("[data-users-friend]");
+    const boxUser =dataUsersFriend.querySelector(`[user-id="${data.userId}"]`)
+    if(boxUser){
+        boxUser.querySelector("[status]").setAttribute("status", data.status)
+    }
+
+})
+// SERVER_RETURN_USER_OFFLINE END
+
+
+
